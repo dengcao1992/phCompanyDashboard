@@ -22,10 +22,7 @@ class Controller @Inject()(implicit val cc: ControllerComponents,
         Ok(
             (pkg, pkg2) match {
                 case ("dashboard", "saleData") => FindDataByCompanyAndYM().selectData().asJson
-                case ("dashboard", "keyWord") => {
-                    val a = FindKeyWordByCompanyIdAndTime().selectKeyWord()
-                    a.asJson
-                }
+                case ("dashboard", "keyWord") => FindKeyWordByCompanyIdAndTime().selectKeyWord().asJson
             }
         )
     }
