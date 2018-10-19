@@ -13,7 +13,7 @@ import com.pharbers.models.entity.max._
 import com.pharbers.models.request.request
 
 
-case class FindSalesOverviewByCompanyAndYM()(implicit val rq: Request[model.RootObject], dbt: dbInstanceManager)
+case class FindCompanySalesOverview()(implicit val rq: Request[model.RootObject], dbt: dbInstanceManager)
         extends phCompanyDashboard with CirceJsonapiSupport with RequestHand {
 
     def selectOverview(): model.RootObject ={

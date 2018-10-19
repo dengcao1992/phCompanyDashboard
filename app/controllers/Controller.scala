@@ -21,10 +21,10 @@ class Controller @Inject()(implicit val cc: ControllerComponents,
         implicit request =>
         Ok(
             (pkg, pkg2) match {
-                case ("dashboard", "saleData") => FindDataByCompanyAndYM().selectData().asJson
-                case ("dashboard", "keyWord") => FindKeyWordByCompanyIdAndTime().selectKeyWord().asJson
-                case ("dashboard", "overView") => FindSalesOverviewByCompanyAndYM().selectOverview().asJson
-                case ("dashboard", "contribution") => FindProdSalesContributionByCompanyAndYm().selectContribution().asJson
+                case ("dashboard", "saleData") => FindCompanyData().selectData().asJson
+                case ("dashboard", "keyWord") => FindCompanyKeyWord().selectKeyWord().asJson
+                case ("dashboard", "overView") => FindCompanySalesOverview().selectOverview().asJson
+                case ("dashboard", "contribution") => FindCompanyProdSalesContribution().selectContribution().asJson
             }
         )
     }
@@ -33,7 +33,8 @@ class Controller @Inject()(implicit val cc: ControllerComponents,
         implicit request =>
             Ok(
                 (pkg1, pkg2) match{
-                    case ("nation", "saleShare") => FindNationSaleShareByCompanyMarketAndYM().selectNationSaleShare().asJson
+                    case ("nation", "saleShare") => FindNationSaleShare().selectNationSaleShare().asJson
+                    case ("nation", "marketTrend") => FindNationMarketTrend().selectNationMarketTrend().asJson
                 }
             )
     }

@@ -13,7 +13,7 @@ import com.pharbers.driver.util.PhRedisTrait
 import com.pharbers.dbManagerTrait.dbInstanceManager
 
 
-case class FindDataByCompanyAndYM()(implicit val rq: Request[model.RootObject], dbt: dbInstanceManager)
+case class FindCompanyData()(implicit val rq: Request[model.RootObject], dbt: dbInstanceManager)
         extends phCompanyDashboard with CirceJsonapiSupport with RequestHand{
     def selectData(): model.RootObject ={
         var tableSale: TableSale = new TableSale()

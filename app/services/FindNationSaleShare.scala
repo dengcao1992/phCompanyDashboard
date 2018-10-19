@@ -12,7 +12,7 @@ import com.pharbers.dbManagerTrait.dbInstanceManager
 import com.pharbers.models.entity.max._
 import com.pharbers.models.request.request
 
-case class FindNationSaleShareByCompanyMarketAndYM()(implicit val rq: Request[model.RootObject], dbt: dbInstanceManager)
+case class FindNationSaleShare()(implicit val rq: Request[model.RootObject], dbt: dbInstanceManager)
         extends phNationDashboard with CirceJsonapiSupport with RequestHand {
 
     def selectNationSaleShare():  model.RootObject ={
