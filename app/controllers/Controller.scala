@@ -9,7 +9,7 @@ import com.pharbers.jsonapi.model.RootObject
 import com.pharbers.jsonapi.json.circe.CirceJsonapiSupport
 import com.pharbers.driver.util.PhRedisTrait
 import com.pharbers.dbManagerTrait.dbInstanceManager
-import services.FindDataByCompanyAndYM
+import services.{FindDataByCompanyAndYM, FindKeyWordByCompanyIdAndTime}
 
 @Singleton
 class Controller @Inject()(implicit val cc: ControllerComponents,
@@ -22,6 +22,10 @@ class Controller @Inject()(implicit val cc: ControllerComponents,
         Ok(
             (pkg, pkg2) match {
                 case ("dashboard", "saleData") => FindDataByCompanyAndYM().selectData().asJson
+                case ("dashboard", "keyWord") => {
+                    val a = FindKeyWordByCompanyIdAndTime().selectKeyWord()
+                    a.asJson
+                }
             }
         )
     }

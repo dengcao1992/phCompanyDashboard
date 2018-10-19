@@ -10,9 +10,9 @@ import com.pharbers.models.request.request
 import com.pharbers.search.phMaxCompanyDashboard
 import com.pharbers.driver.util.PhRedisTrait
 import com.pharbers.dbManagerTrait.dbInstanceManager
-import com.pharbers.models.entity.max.{Cards, SalesFastest}
+import com.pharbers.models.entity.max._
 
-class FindKeyWordByCompanyIdAndTime(implicit val rq: Request[model.RootObject], dbt: dbInstanceManager)
+case class FindKeyWordByCompanyIdAndTime()(implicit val rq: Request[model.RootObject], dbt: dbInstanceManager)
         extends phCompanyDashboard with CirceJsonapiSupport {
     def selectKeyWord(): model.RootObject ={
         var requestData: request = new request()
@@ -21,7 +21,9 @@ class FindKeyWordByCompanyIdAndTime(implicit val rq: Request[model.RootObject], 
         requestData.eqcond.getOrElse(Nil) match {
             case Nil => ???
             case eqconds if eqconds.length > 1 => {
-                cards = findCards(eqconds(0).`val`.toString, eqconds(1).`val`.toString)
+                if (eqconds(0).`val` != null && eqconds(1).`val` != null) {
+                    cards = findCards(eqconds(0).`val`.toString, eqconds(1).`val`.toString)
+                }
                 toJsonapi(cards)
             }
         }
@@ -30,15 +32,106 @@ class FindKeyWordByCompanyIdAndTime(implicit val rq: Request[model.RootObject], 
     private def findCards(CompanyId: String, time: String): Cards ={
         val ym = time.replaceAll("-", "")
         val dashboard = phMaxCompanyDashboard(CompanyId, ym)
+
+        val mktGrowthLst = dashboard.getMktCurrSalesGrowth
+        val fastestGrowingMkt: Map[String, String] = mktGrowthLst match {
+            case Nil => Map.empty
+            case _ => dashboard.getFastestGrowingMkt
+        }
+
+        val companyProdSalesGrowthLst = dashboard.getCompanyProdCurrSalesGrowth
+        val fastestSaleGrowingProd: Map[String, String] = companyProdSalesGrowthLst match {
+            case Nil => Map.empty
+            case _ => dashboard.getCompanyFastestSaleGrowingProd
+        }
+
+        val fastestSaleDeclineProd: Map[String, String] = companyProdSalesGrowthLst match {
+            case Nil => Map.empty
+            case _ => dashboard.getCompanyFastestSaleDeclineProd
+        }
+
+        val maxShareProd: Map[String, String] = companyProdSalesGrowthLst match {
+            case Nil => Map.empty
+            case _ => dashboard.getCompanyMaxShareProd
+        }
+
+        val fastestShareGrowingProd: Map[String, String] = companyProdSalesGrowthLst match {
+            case Nil => Map.empty
+            case _ => dashboard.getCompanyFastestShareGrowingProd
+        }
+
+        val fastestShareDeclineProd: Map[String, String] = companyProdSalesGrowthLst match {
+            case Nil => Map.empty
+            case _ => dashboard.getCompanyFastestShareDeclineProd
+        }
+
         val cards: Cards = new Cards()
-
-
+        cards.ScaleFastest = Some(findScaleFastestCard(fastestGrowingMkt, time))
+        cards.SalesFastest = Some(findSalesFastestCard(fastestSaleGrowingProd, time))
+        cards.SalesSlowest = Some(findSalesSlowestCard(fastestSaleDeclineProd, time))
+        cards.ShareMost = Some(findShareMostCard(maxShareProd, time))
+        cards.ShareFastest = Some(findShareFastestCard(fastestShareGrowingProd, time))
+        cards.ShareSlowest = Some(findShareSlowestCard(fastestShareDeclineProd, time))
         cards
     }
 
-    private def findSalesFastestCard(dashboard: phMaxCompanyDashboard, time: String): SalesFastest ={
+    private def findScaleFastestCard(fastestGrowingMkt:Map[String,String], time: String): ScaleFastest ={
+        val scaleFastest = new ScaleFastest()
+        scaleFastest.subtitle = time
+        scaleFastest.name = fastestGrowingMkt.getOrElse("market", "无")
+        scaleFastest.subname = ""
+        scaleFastest.value = getFormatSales(fastestGrowingMkt.getOrElse("sales", "0.0").toDouble)
+        scaleFastest.percent = getFormatShare(fastestGrowingMkt.getOrElse("growth", "0.0").toDouble)
+        scaleFastest
+    }
+
+    private def findSalesFastestCard(fastestSaleGrowingProd: Map[String, String], time: String): SalesFastest = {
         val salesFastest = new SalesFastest()
         salesFastest.subtitle = time
-        ???
+        salesFastest.name = fastestSaleGrowingProd.getOrElse("product", "无")
+        salesFastest.subname = fastestSaleGrowingProd.getOrElse("market", "无")
+        salesFastest.value = getFormatSales(fastestSaleGrowingProd.getOrElse("sales", "0.0").toDouble)
+        salesFastest.percent = getFormatShare(fastestSaleGrowingProd.getOrElse("productGrowth", "0.0").toDouble)
+        salesFastest
+    }
+
+    private def findSalesSlowestCard(fastestSaleDeclineProd: Map[String, String], time: String): SalesSlowest = {
+        val salesSlowest = new SalesSlowest()
+        salesSlowest.subtitle = time
+        salesSlowest.name = fastestSaleDeclineProd.getOrElse("product", "无")
+        salesSlowest.subname = fastestSaleDeclineProd.getOrElse("market", "无")
+        salesSlowest.value = getFormatSales(fastestSaleDeclineProd.getOrElse("sales", "0.0").toDouble)
+        salesSlowest.percent = getFormatShare(fastestSaleDeclineProd.getOrElse("productGrowth", "0.0").toDouble)
+        salesSlowest
+    }
+
+    private def findShareMostCard(maxShareProd: Map[String, String], time: String): ShareMost = {
+        val shareMost = new ShareMost()
+        shareMost.subtitle = time
+        shareMost.name = maxShareProd.getOrElse("product", "无")
+        shareMost.subname = maxShareProd.getOrElse("market", "无")
+        shareMost.value = getFormatShare(maxShareProd.getOrElse("companyProdShare", "0.0").toDouble)
+        shareMost.percent = getFormatShare(maxShareProd.getOrElse("companyProdShareGrowth", "0.0").toDouble)
+        shareMost
+    }
+
+    private def findShareFastestCard(fastestShareGrowingProd: Map[String, String], time: String): ShareFastest = {
+        val salesFastest = new ShareFastest()
+        salesFastest.subtitle = time
+        salesFastest.name = fastestShareGrowingProd.getOrElse("product", "无")
+        salesFastest.subname = fastestShareGrowingProd.getOrElse("market", "无")
+        salesFastest.value = getFormatShare(fastestShareGrowingProd.getOrElse("companyProdShare", "0.0").toDouble)
+        salesFastest.percent = getFormatShare(fastestShareGrowingProd.getOrElse("companyProdShareGrowth", "0.0").toDouble)
+        salesFastest
+    }
+
+    private def findShareSlowestCard(fastestShareDeclineProd: Map[String, String], time: String): ShareSlowest = {
+        val shareSlowest = new ShareSlowest()
+        shareSlowest.subtitle = time
+        shareSlowest.name = fastestShareDeclineProd.getOrElse("product", "无")
+        shareSlowest.subname = fastestShareDeclineProd.getOrElse("market", "无")
+        shareSlowest.value = getFormatShare(fastestShareDeclineProd.getOrElse("companyProdShare", "0.0").toDouble)
+        shareSlowest.percent = getFormatShare(fastestShareDeclineProd.getOrElse("companyProdShareGrowth", "0.0").toDouble)
+        shareSlowest
     }
 }
