@@ -21,13 +21,13 @@ case class FindNationMarketTrend()(implicit val rq: Request[model.RootObject], d
         init()
         val ym = time.replaceAll("-", "")
         val dashboard = phMaxNativeDashboard(companyId, ym, market)
-        nationMarketTrend.nationProdSalesOverview = Some(findNationProdSalesOverview(dashboard))
+        nationMarketTrend.prodSalesOverview = Some(findNationProdSalesOverview(dashboard))
         nationMarketTrend.multiData = Some(findMultiDataList(dashboard))
         toJsonapi(nationMarketTrend)
     }
 
-    private def findNationProdSalesOverview(dashboard: phMaxNativeDashboard): NationProdSalesOverview ={
-        val nationProdSalesOverview = new NationProdSalesOverview()
+    private def findNationProdSalesOverview(dashboard: phMaxNativeDashboard): ProdSalesOverview ={
+        val nationProdSalesOverview = new ProdSalesOverview()
         nationProdSalesOverview.title = "市场规模&产品销售趋势"
         nationProdSalesOverview.timeStart = getFormatYM(dashboard.dashboardStartYM)
         nationProdSalesOverview.timeOver = getFormatYM(dashboard.dashboardEndYM)
