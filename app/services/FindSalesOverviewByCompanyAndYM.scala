@@ -18,27 +18,33 @@ case class FindSalesOverviewByCompanyAndYM()(implicit val rq: Request[model.Root
 
     def selectOverview(): model.RootObject ={
         val requestData = formJsonapi[request](rq.body)
-        var prodSalesOverview = new ProdSalesOverview()
+        var overview = new Overview()
 
         requestData.eqcond.getOrElse(Nil) match {
             case Nil => ???
             case eqconds if eqconds.length > 1 => {
-                if (eqconds(0).`val` != null && eqconds(1).`val` != null) {
-                    prodSalesOverview = findProdSalesOverview(eqconds(0).`val`.toString, eqconds(1).`val`.toString)
-                }
-                toJsonapi(prodSalesOverview)
+                var companyId = ""
+                var time = ""
+                eqconds.foreach(x =>{
+                    if (x.key == "company_id" && x.`val` != null) companyId = x.`val`.toString
+                    if (x.key == "time" && x.`val` != null)  time = x.`val`.toString
+                })
+                overview = findProdSalesOverview(companyId, time)
+                toJsonapi(overview)
             }
         }
     }
 
-    private def findProdSalesOverview(companyId: String, time: String): ProdSalesOverview ={
+    private def findProdSalesOverview(companyId: String, time: String): Overview ={
         val ym = time.replaceAll("-", "")
         val dashboard = phMaxCompanyDashboard(companyId, ym)
         val companyProdLstMap = dashboard.getCompanyProdCurrSalesGrowth
+        val overview = new Overview()
         val prodSalesOverview = new ProdSalesOverview()
         prodSalesOverview.subtitle = time
-        prodSalesOverview.ProdSalesValue = Some(findProdSalesValueList(companyProdLstMap))
-        prodSalesOverview
+        overview.ProdSalesOverview = Some(prodSalesOverview)
+        overview.ProdSalesValue = Some(findProdSalesValueList(companyProdLstMap))
+        overview
     }
 
     private def findProdSalesValueList(companyProdLstMap: List[Map[String, String]]): List[ProdSalesValue] ={
