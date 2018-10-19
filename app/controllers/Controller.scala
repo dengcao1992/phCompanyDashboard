@@ -9,7 +9,7 @@ import com.pharbers.jsonapi.model.RootObject
 import com.pharbers.jsonapi.json.circe.CirceJsonapiSupport
 import com.pharbers.driver.util.PhRedisTrait
 import com.pharbers.dbManagerTrait.dbInstanceManager
-import services.{FindDataByCompanyAndYM, FindKeyWordByCompanyIdAndTime, FindSalesOverviewByCompanyAndYM}
+import services.{FindDataByCompanyAndYM, FindKeyWordByCompanyIdAndTime, FindProdSalesContributionByCompanyAndYm, FindSalesOverviewByCompanyAndYM}
 
 @Singleton
 class Controller @Inject()(implicit val cc: ControllerComponents,
@@ -24,6 +24,7 @@ class Controller @Inject()(implicit val cc: ControllerComponents,
                 case ("dashboard", "saleData") => FindDataByCompanyAndYM().selectData().asJson
                 case ("dashboard", "keyWord") => FindKeyWordByCompanyIdAndTime().selectKeyWord().asJson
                 case ("dashboard", "overView") => FindSalesOverviewByCompanyAndYM().selectOverview().asJson
+                case ("dashboard", "contribution") => FindProdSalesContributionByCompanyAndYm().selectContribution().asJson
             }
         )
     }

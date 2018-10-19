@@ -6,41 +6,32 @@ import com.pharbers.jsonapi.model
 import play.api.mvc.Request
 import com.pharbers.macros._
 import com.pharbers.macros.convert.jsonapi.JsonapiMacro._
-import com.pharbers.models.request.request
 import com.pharbers.search.phMaxCompanyDashboard
 import com.pharbers.driver.util.PhRedisTrait
 import com.pharbers.dbManagerTrait.dbInstanceManager
 import com.pharbers.models.entity.max._
+import com.pharbers.models.request.request
 
 
 case class FindSalesOverviewByCompanyAndYM()(implicit val rq: Request[model.RootObject], dbt: dbInstanceManager)
-        extends phCompanyDashboard with CirceJsonapiSupport{
+        extends phCompanyDashboard with CirceJsonapiSupport with RequestHand {
 
     def selectOverview(): model.RootObject ={
-        val requestData = formJsonapi[request](rq.body)
         var overview = new Overview()
+        requestData = formJsonapi[request](rq.body)
+        init()
+        overview = findOverview(companyId, time)
+        toJsonapi(overview)
 
-        requestData.eqcond.getOrElse(Nil) match {
-            case Nil => ???
-            case eqconds if eqconds.length > 1 => {
-                var companyId = ""
-                var time = ""
-                eqconds.foreach(x =>{
-                    if (x.key == "company_id" && x.`val` != null) companyId = x.`val`.toString
-                    if (x.key == "time" && x.`val` != null)  time = x.`val`.toString
-                })
-                overview = findProdSalesOverview(companyId, time)
-                toJsonapi(overview)
-            }
-        }
     }
 
-    private def findProdSalesOverview(companyId: String, time: String): Overview ={
+    private def findOverview(companyId: String, time: String): Overview ={
         val ym = time.replaceAll("-", "")
         val dashboard = phMaxCompanyDashboard(companyId, ym)
         val companyProdLstMap = dashboard.getCompanyProdCurrSalesGrowth
         val overview = new Overview()
         val prodSalesOverview = new ProdSalesOverview()
+        prodSalesOverview.title = "各产品销售概况"
         prodSalesOverview.subtitle = time
         overview.ProdSalesOverview = Some(prodSalesOverview)
         overview.ProdSalesValue = Some(findProdSalesValueList(companyProdLstMap))

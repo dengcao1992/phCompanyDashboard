@@ -14,21 +14,13 @@ import com.pharbers.dbManagerTrait.dbInstanceManager
 
 
 case class FindDataByCompanyAndYM()(implicit val rq: Request[model.RootObject], dbt: dbInstanceManager)
-        extends phCompanyDashboard with CirceJsonapiSupport{
+        extends phCompanyDashboard with CirceJsonapiSupport with RequestHand{
     def selectData(): model.RootObject ={
         var tableSale: TableSale = new TableSale()
-        var requestData: request = new request()
         requestData = formJsonapi[request](rq.body)
-        requestData.eqcond.getOrElse(Nil) match {
-            case Nil => ???
-            case eqconds if eqconds.length > 1 => {
-                if (eqconds(0).`val` != null && eqconds(1).`val` != null) {
-                    tableSale = findTableSale(eqconds(0).`val`.toString, eqconds(1).`val`.toString)
-                }
-                toJsonapi(tableSale)
-            }
-            case _ => ???
-        }
+        init()
+        tableSale = findTableSale(companyId, time)
+        toJsonapi(tableSale)
     }
 
     private def findTableSale(CompanyId: String, time: String): TableSale = {
