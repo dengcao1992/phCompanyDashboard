@@ -13,20 +13,13 @@ import com.pharbers.dbManagerTrait.dbInstanceManager
 import com.pharbers.models.entity.max._
 
 case class FindKeyWordByCompanyIdAndTime()(implicit val rq: Request[model.RootObject], dbt: dbInstanceManager)
-        extends phCompanyDashboard with CirceJsonapiSupport {
+        extends phCompanyDashboard with CirceJsonapiSupport with RequestHand {
     def selectKeyWord(): model.RootObject ={
-        var requestData: request = new request()
         var cards: Cards = new Cards()
         requestData = formJsonapi[request](rq.body)
-        requestData.eqcond.getOrElse(Nil) match {
-            case Nil => ???
-            case eqconds if eqconds.length > 1 => {
-                if (eqconds(0).`val` != null && eqconds(1).`val` != null) {
-                    cards = findCards(eqconds(0).`val`.toString, eqconds(1).`val`.toString)
-                }
-                toJsonapi(cards)
-            }
-        }
+        init()
+        cards = findCards(companyId, time)
+        toJsonapi(cards)
     }
 
     private def findCards(CompanyId: String, time: String): Cards ={
