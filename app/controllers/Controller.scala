@@ -9,7 +9,7 @@ import com.pharbers.jsonapi.model.RootObject
 import com.pharbers.jsonapi.json.circe.CirceJsonapiSupport
 import com.pharbers.driver.util.PhRedisTrait
 import com.pharbers.dbManagerTrait.dbInstanceManager
-import services.{FindDataByCompanyAndYM, FindKeyWordByCompanyIdAndTime, FindProdSalesContributionByCompanyAndYm, FindSalesOverviewByCompanyAndYM}
+import services._
 
 @Singleton
 class Controller @Inject()(implicit val cc: ControllerComponents,
@@ -29,5 +29,12 @@ class Controller @Inject()(implicit val cc: ControllerComponents,
         )
     }
 
-//    def routes2(pkg1: String  , pkg2: String, step: Int): Action[RootObject] = routes(pkg1 + "/" + pkg2, step)
+    def routes2(pkg1: String  , pkg2: String):Action[RootObject] = Action(circe.json[RootObject]) {
+        implicit request =>
+            Ok(
+                (pkg1, pkg2) match{
+                    case ("nation", "saleShare") => FindNationSaleShareByCompanyMarketAndYM().selectNationSaleShare().asJson
+                }
+            )
+    }
 }
