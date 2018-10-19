@@ -12,7 +12,7 @@ import com.pharbers.driver.util.PhRedisTrait
 import com.pharbers.dbManagerTrait.dbInstanceManager
 import com.pharbers.models.entity.max._
 
-case class FindKeyWordByCompanyIdAndTime()(implicit val rq: Request[model.RootObject], dbt: dbInstanceManager)
+case class FindCompanyKeyWord()(implicit val rq: Request[model.RootObject], dbt: dbInstanceManager)
         extends phCompanyDashboard with CirceJsonapiSupport with RequestHand {
     def selectKeyWord(): model.RootObject ={
         var cards: Cards = new Cards()

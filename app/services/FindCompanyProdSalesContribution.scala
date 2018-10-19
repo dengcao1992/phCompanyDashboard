@@ -12,7 +12,7 @@ import com.pharbers.driver.util.PhRedisTrait
 import com.pharbers.dbManagerTrait.dbInstanceManager
 import com.pharbers.models.entity.max._
 
-case class FindProdSalesContributionByCompanyAndYm()(implicit val rq: Request[model.RootObject], dbt: dbInstanceManager)
+case class FindCompanyProdSalesContribution()(implicit val rq: Request[model.RootObject], dbt: dbInstanceManager)
         extends phCompanyDashboard with CirceJsonapiSupport with RequestHand {
 
     def selectContribution(): model.RootObject ={
