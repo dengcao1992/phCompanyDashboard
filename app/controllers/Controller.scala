@@ -33,6 +33,7 @@ class Controller @Inject()(implicit val cc: ControllerComponents,
         implicit request =>
             Ok(
                 (pkg1, pkg2) match{
+                    case ("market", "all") => FindAllMarket().selectAllMarket().asJson
                     case ("nation", "saleShare") => FindNationSaleShare().selectNationSaleShare().asJson
                     case ("nation", "marketTrend") => FindNationMarketTrend().selectNationMarketTrend().asJson
                     case ("nation", "mostWord") => FindNationMostWord().selectNationMostWord().asJson
@@ -40,6 +41,7 @@ class Controller @Inject()(implicit val cc: ControllerComponents,
                     case ("nation", "productRank") => FindNationProductRank().selectNationProductRank().asJson
                     case ("nation", "productTable") => FindNationProductTable().selectNationProductTable().asJson
                     case ("nation", "prodTrendAnalysis") => FindNationProdTrendAnalysis().selectNationProdTrendAnalysis().asJson
+                    case ("province", "all") => FindProvinceLst().selectProvinceList().asJson
                 }
             )
     }
