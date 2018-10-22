@@ -68,7 +68,7 @@ case class FindProvinceCardData()(implicit val rq: Request[model.RootObject], db
             ),
             new ProvinceWord("产品份额最高", time, provCompanyShareMax.getOrElse("province", "无"), "%",
                 getFormatShare(provCompanyShareMax.getOrElse("companyShare", "0.0").toDouble),
-                getFormatShare(provCompanyShareMax.getOrElse("companyShareMomGrowth", "0.0").toDouble),
+                getFormatShare(provCompanyShareMax.getOrElse("companyShareMomGrowth", "0.0").toDouble)
             ),
             new ProvinceWord("产品份额增长最快", time, provCompanyShareGrowingFastest.getOrElse("province", "无"), "%",
                 getFormatShare(provCompanyShareGrowingFastest.getOrElse("companyShare", "0.0").toDouble),
