@@ -17,7 +17,7 @@ class Controller @Inject()(implicit val cc: ControllerComponents,
                            implicit val dbt: dbInstanceManager)
         extends AbstractController(cc) with Circe with CirceJsonapiSupport {
 
-    def routes(pkg: String, pkg2: String): Action[RootObject] = Action(circe.json[RootObject]) { //捕获异常
+    def routes(pkg: String, pkg2: String): Action[RootObject] = Action(circe.json[RootObject]) {
         implicit request =>
         Ok(
             (pkg, pkg2) match {
@@ -36,6 +36,8 @@ class Controller @Inject()(implicit val cc: ControllerComponents,
                     case ("nation", "saleShare") => FindNationSaleShare().selectNationSaleShare().asJson
                     case ("nation", "marketTrend") => FindNationMarketTrend().selectNationMarketTrend().asJson
                     case ("nation", "mostWord") => FindNationMostWord().selectNationMostWord().asJson
+                    case ("nation", "productShare") => FindNationProductShare().selectNationProductShare().asJson
+                    case ("nation", "productRank") => FindNationProductRank().selectNationProductRank().asJson
                 }
             )
     }

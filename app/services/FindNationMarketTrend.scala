@@ -19,7 +19,6 @@ case class FindNationMarketTrend()(implicit val rq: Request[model.RootObject], d
         val nationMarketTrend = new NationMarketTrend()
         requestData = formJsonapi[request](rq.body)
         init()
-        val ym = time.replaceAll("-", "")
         val dashboard = phMaxNativeDashboard(companyId, ym, market)
         nationMarketTrend.ProdSalesOverview = Some(findNationProdSalesOverview(dashboard))
         nationMarketTrend.MultipleLine = Some(findMultiDataList(dashboard))

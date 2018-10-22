@@ -19,7 +19,6 @@ case class FindNationMostWord()(implicit val rq: Request[model.RootObject], dbt:
         val nationMostWord = new NationMostWord()
         requestData = formJsonapi[request](rq.body)
         init()
-        val ym = time.replaceAll("-", "")
         val dashboard = phMaxNativeDashboard(companyId, ym, market)
         val prodSalesGrowthLst = dashboard.getProdSalesGrowthByYM(ym)
 

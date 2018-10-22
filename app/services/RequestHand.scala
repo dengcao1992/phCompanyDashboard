@@ -10,6 +10,8 @@ trait RequestHand {
     var companyId = ""
     var time = ""
     var market = ""
+    var tag = ""
+    var ym = ""
     def init(): Unit ={
         requestData.eqcond.getOrElse(Nil) match {
             case Nil => ???
@@ -22,9 +24,11 @@ trait RequestHand {
                     if (x.key == "company_id" && x.`val` != null) companyId = x.`val`.toString
                     if (x.key == "time" && x.`val` != null) time = x.`val`.toString
                     if (x.key == "market" && x.`val` != null) market = x.`val`.toString
+                    if (x.key == "tag" && x.`val` != null) tag = x.`val`.toString
                 })
             }
         }
+        ym = time.replaceAll("-", "")
     }
 
 }
