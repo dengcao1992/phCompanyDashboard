@@ -35,7 +35,9 @@ class Controller @Inject()(implicit val cc: ControllerComponents,
                 (pkg1, pkg2) match{
                     case ("nation", "saleShare") => FindNationSaleShare().selectNationSaleShare().asJson
                     case ("nation", "marketTrend") => FindNationMarketTrend().selectNationMarketTrend().asJson
-                    case ("nation", "saleShare") => FindNationMostWord().selectNationMostWord().asJson
+                    case ("nation", "mostWord") => FindNationMostWord().selectNationMostWord().asJson
+                    case ("nation", "productShare") => FindNationProductShare().selectNationProductShare().asJson
+                    case ("nation", "productRank") => FindNationProductRank().selectNationProductRank().asJson
                 }
             )
     }

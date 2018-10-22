@@ -23,7 +23,6 @@ case class FindCompanyKeyWord()(implicit val rq: Request[model.RootObject], dbt:
     }
 
     private def findCards(CompanyId: String, time: String): Cards ={
-        val ym = time.replaceAll("-", "")
         val dashboard = phMaxCompanyDashboard(CompanyId, ym)
 
         val mktGrowthLst = dashboard.getMktCurrSalesGrowth

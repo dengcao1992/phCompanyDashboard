@@ -19,7 +19,6 @@ case class FindNationSaleShare()(implicit val rq: Request[model.RootObject], dbt
         val nationSaleShare = new NationSaleShare()
         requestData = formJsonapi[request](rq.body)
         init()
-        val ym = time.replaceAll("-", "")
         val dashboard = phMaxNativeDashboard(companyId, ym, market)
         nationSaleShare.SaleShareCard = Some(findSaleShareCardList(dashboard))
         toJsonapi(nationSaleShare)

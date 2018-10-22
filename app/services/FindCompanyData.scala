@@ -24,7 +24,6 @@ case class FindCompanyData()(implicit val rq: Request[model.RootObject], dbt: db
     }
 
     private def findTableSale(CompanyId: String, time: String): TableSale = {
-        val ym = time.replaceAll("-", "")
         val dashboard = phMaxCompanyDashboard(CompanyId, ym)
         val tableSale = new TableSale()
         val prodSalesOverview = findProdSalesOverview(dashboard)

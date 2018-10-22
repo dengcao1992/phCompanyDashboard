@@ -26,7 +26,6 @@ case class FindCompanySalesOverview()(implicit val rq: Request[model.RootObject]
     }
 
     private def findOverview(companyId: String, time: String): Overview ={
-        val ym = time.replaceAll("-", "")
         val dashboard = phMaxCompanyDashboard(companyId, ym)
         val companyProdLstMap = dashboard.getCompanyProdCurrSalesGrowth
         val overview = new Overview()

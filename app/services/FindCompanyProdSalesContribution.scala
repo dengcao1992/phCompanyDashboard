@@ -24,7 +24,6 @@ case class FindCompanyProdSalesContribution()(implicit val rq: Request[model.Roo
     }
 
     def findTableSale(companyId: String, time: String): Contribution ={
-        val ym = time.replaceAll("-", "")
         val dashboard = phMaxCompanyDashboard(companyId, ym)
         val contribution = new Contribution()
 
@@ -70,18 +69,8 @@ case class FindCompanyProdSalesContribution()(implicit val rq: Request[model.Roo
             prodContValue.showUnit = "%"
             prodContValue.title = m.getOrElse("product", "无")
             prodContValue.color = m.getOrElse("color", "#FFFFFF")
-            prodContValue.Tips = Some(List(new Tips("销售额",getFormatSales(m.getOrElse("sales", "0.0").toDouble), "mil"),
-                new Tips("贡献度", getFormatShare(m.getOrElse("contribution", "0.0").toDouble), "%")))
-//            prodContValue.Tips = Some({
-//                val tips = List(new Tips,new Tips)
-//                tips(0).key = "销售额"
-//                tips(0).value = getFormatSales(m.getOrElse("sales", "0.0").toDouble)
-//                tips(0).unit = "mil"
-//                tips(1).key = "贡献度"
-//                tips(1).value = getFormatShare(m.getOrElse("contribution", "0.0").toDouble)
-//                tips(1).unit = "%"
-//                tips
-//            })
+            prodContValue.Tips = Some(List(new Tips("销售额",getFormatSales(m.getOrElse("sales", "0.0").toDouble).toString, "mil"),
+                new Tips("贡献度", getFormatShare(m.getOrElse("contribution", "0.0").toDouble).toString, "%")))
             prodContValueList = prodContValueList :+ prodContValue
         })
         prodContValueList
