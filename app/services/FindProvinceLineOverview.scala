@@ -19,13 +19,13 @@ case class FindProvinceLineOverview()(implicit val rq: Request[model.RootObject]
         requestData = formJsonapi[request](rq.body)
         init()
         val dashboard = phMaxProvinceDashboard(companyId, ym, market)
-        provinceLineOverview.MixedGraphData = Some(findMixedGraphDataList(dashboard))
+        provinceLineOverview.MixedGraphLine = Some(findMixedGraphDataList(dashboard))
         toJsonapi(provinceLineOverview)
     }
 
-    private def findMixedGraphDataList(dashboard: phMaxProvinceDashboard): List[MixedGraphData] = {
+    private def findMixedGraphDataList(dashboard: phMaxProvinceDashboard): List[MixedGraphLine] = {
         dashboard.getProvinceSalesLstMap(ym).map(m => {
-            val mixedGraphData = new MixedGraphData()
+            val mixedGraphData = new MixedGraphLine()
             mixedGraphData.province = m.getOrElse("province", "无")
             mixedGraphData.scale = getFormatSales(m.getOrElse("provinceSales", "0.0").toDouble)
             mixedGraphData.market_growth = getFormatShare(m.getOrElse("provMomGrowth", "0.0").toDouble)
