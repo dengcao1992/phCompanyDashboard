@@ -42,6 +42,7 @@ class Controller @Inject()(implicit val cc: ControllerComponents,
                     case ("nation", "productTable") => FindNationProductTable().selectNationProductTable().asJson
                     case ("nation", "prodTrendAnalysis") => FindNationProdTrendAnalysis().selectNationProdTrendAnalysis().asJson
                     case ("province", "all") => FindProvinceLst().selectProvinceList().asJson
+                    case ("province", "provinceName") => FindProvinceCardData().selectProvinceCardData().asJson
                 }
             )
     }
