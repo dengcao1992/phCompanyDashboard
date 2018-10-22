@@ -16,7 +16,7 @@ case class FindNationProdTrendAnalysis()(implicit val rq: Request[model.RootObje
         extends phNationDashboard with CirceJsonapiSupport with RequestHand  {
 
     def selectNationProdTrendAnalysis(): model.RootObject ={
-        val nationProdTrendAnalysis = new ProdTrendAnalysis()
+        val nationProdTrendAnalysis = new NationProdTrendAnalysis()
         requestData = formJsonapi[request](rq.body)
         init()
         val dashboard = phMaxNativeDashboard(companyId, ym, market)
