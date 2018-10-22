@@ -38,7 +38,7 @@ case class FindNationMostWord()(implicit val rq: Request[model.RootObject], dbt:
             case _ => dashboard.getFastestShareDeclineProd
         }
 
-        nationMostWord.mostCard = Some(
+        nationMostWord.MostCard = Some(
             List(
                 new MostCard(title = "竟品数量", subtitle = time, area = "全国", name = dashboard.getCompetingProductCount.toString, tag = "count"),
                 new MostCard("份额最大", time, "全国", prodShareMax.getOrElse("product", "无"), prodShareMax.getOrElse("corp", "无"),

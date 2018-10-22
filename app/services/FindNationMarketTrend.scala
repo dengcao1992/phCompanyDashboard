@@ -21,8 +21,8 @@ case class FindNationMarketTrend()(implicit val rq: Request[model.RootObject], d
         init()
         val ym = time.replaceAll("-", "")
         val dashboard = phMaxNativeDashboard(companyId, ym, market)
-        nationMarketTrend.prodSalesOverview = Some(findNationProdSalesOverview(dashboard))
-        nationMarketTrend.multiData = Some(findMultiDataList(dashboard))
+        nationMarketTrend.ProdSalesOverview = Some(findNationProdSalesOverview(dashboard))
+        nationMarketTrend.MultipleLine = Some(findMultiDataList(dashboard))
         toJsonapi(nationMarketTrend)
     }
 
@@ -35,10 +35,10 @@ case class FindNationMarketTrend()(implicit val rq: Request[model.RootObject], d
         nationProdSalesOverview
     }
 
-    private def findMultiDataList(dashboard: phMaxNativeDashboard): List[MultiData] ={
-        var multiDataList: List[MultiData] = Nil
+    private def findMultiDataList(dashboard: phMaxNativeDashboard): List[MultipleLine] ={
+        var multiDataList: List[MultipleLine] = Nil
         dashboard.getListMonthTrend.foreach(x => {
-            val multiData = new MultiData()
+            val multiData = new MultipleLine()
             multiData.ym = getFormatYM(x("ym"))
             multiData.marketSales = getFormatSales(x("NationSales").toDouble)
             multiData.prodSales = getFormatSales(x("CompanySales").toDouble)
