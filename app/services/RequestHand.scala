@@ -15,7 +15,7 @@ trait RequestHand {
     def init(): Unit ={
         requestData.eqcond.getOrElse(Nil) match {
             case Nil => ???
-            case eqconds if eqconds.length > 1 => {
+            case eqconds => {
                 //                if (eqconds(0).`val` != null && eqconds(1).`val` != null) {
                 //                    tableSale = findTableSale(eqconds(0).`val`.toString, eqconds(1).`val`.toString)
                 //                }
@@ -27,6 +27,7 @@ trait RequestHand {
                     if (x.key == "tag" && x.`val` != null) tag = x.`val`.toString
                 })
             }
+            case _ => ???
         }
         ym = time.replaceAll("-", "")
     }
