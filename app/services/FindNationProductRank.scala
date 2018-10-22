@@ -28,6 +28,7 @@ case class FindNationProductRank()(implicit val rq: Request[model.RootObject], d
             case t if t.toLowerCase().contains("sale") => "mil"
             case _ => "undefined"
         }
+        nationProductRank.subtitle = time
         nationProductRank.unit = unit
         toJsonapi(nationProductRank)
     }

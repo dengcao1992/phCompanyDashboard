@@ -5,3 +5,4 @@
 # An example controller showing a sample home page
 POST    /api/v1/:pkg/:pkg2               controllers.Controller.routes(pkg: String, pkg2: String)
 POST    /api/v1/dashboard/:pkg1/:pkg2       controllers.Controller.routes2(pkg1: String, pkg2: String)
+POST    /api/v1/search/:pkg1/:pkg2       controllers.Controller.routes2(pkg1: String, pkg2: String)
