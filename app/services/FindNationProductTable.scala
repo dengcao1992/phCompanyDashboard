@@ -11,6 +11,7 @@ import com.pharbers.driver.util.PhRedisTrait
 import com.pharbers.dbManagerTrait.dbInstanceManager
 import com.pharbers.models.entity.max._
 import com.pharbers.models.request.request
+
 case class FindNationProductTable()(implicit val rq: Request[model.RootObject], dbt: dbInstanceManager)
         extends phNationDashboard with CirceJsonapiSupport with RequestHand {
     def selectNationProductTable(): model.RootObject = {
