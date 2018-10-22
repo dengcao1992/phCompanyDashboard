@@ -38,6 +38,7 @@ class Controller @Inject()(implicit val cc: ControllerComponents,
                     case ("nation", "mostWord") => FindNationMostWord().selectNationMostWord().asJson
                     case ("nation", "productShare") => FindNationProductShare().selectNationProductShare().asJson
                     case ("nation", "productRank") => FindNationProductRank().selectNationProductRank().asJson
+                    case ("nation", "productTable") => FindNationProductTable().selectNationProductTable().asJson
                 }
             )
     }
