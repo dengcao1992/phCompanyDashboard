@@ -49,6 +49,10 @@ class Controller @Inject()(implicit val cc: ControllerComponents,
                     case ("province", "provLevelRank") => FindProvinceLevelRank().selectProvinceLevelRank().asJson
                     case ("province", "provMarketSale") => FindProvinceMarketSale().selectProvinceMarketSale().asJson
                     case ("province", "productTrend") => FindProvinceProdTrend().selectProvinceProdTrend().asJson
+                    case ("province", "productCard") => FindProvinceProdCard().selectProvinceProdCard().asJson
+                    case ("province", "productShare") => FindProvinceProductShare().selectProvinceProductShare().asJson
+                    case ("province", "prodRankChange") => FindProvinceProductRankChange().selectProvinceProductRankChange().asJson
+                    case ("province", "prodSaleOverview") => FindProvinceProductSaleOverview().selectProvinceProductSaleOverview().asJson
                 }
             )
     }

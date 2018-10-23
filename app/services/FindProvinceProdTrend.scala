@@ -15,11 +15,11 @@ case class FindProvinceProdTrend()(implicit val rq: Request[model.RootObject], d
         extends phProvinceDashboard with CirceJsonapiSupport with RequestHand {
 
     def selectProvinceProdTrend(): model.RootObject = {
-        val provinceProdTrend = new ProvinceProdTrend()
+        val provinceProductTrend = new ProvinceProductTrend()
         requestData = formJsonapi[request](rq.body)
         init()
-        val dashboard = phMaxProvinceDashboard(companyId, ym, market)
-        provinceProdTrend.ProdSalesOverview = Some({
+        val dashboard = phMaxProvinceDashboard(companyId, ym, market, province)
+        provinceProductTrend.ProdSalesOverview = Some({
             val prodSalesOverview = new ProdSalesOverview()
             prodSalesOverview.title = "市场规模&产品销售趋势"
             prodSalesOverview.timeStart = getFormatYM(dashboard.dashboardStartYM)
@@ -27,8 +27,8 @@ case class FindProvinceProdTrend()(implicit val rq: Request[model.RootObject], d
             prodSalesOverview.area = province
             prodSalesOverview
         })
-        provinceProdTrend.MultipleLine = Some(findMultipleLineList(dashboard))
-        toJsonapi(provinceProdTrend)
+        provinceProductTrend.MultipleLine = Some(findMultipleLineList(dashboard))
+        toJsonapi(provinceProductTrend)
     }
 
     private def findMultipleLineList(dashboard: phMaxProvinceDashboard): List[MultipleLine] = {
