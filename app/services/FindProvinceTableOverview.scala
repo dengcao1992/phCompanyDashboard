@@ -36,7 +36,8 @@ case class FindProvinceTableOverview()(implicit val rq: Request[model.RootObject
             prodSalesValue.market_growth =getFormatShare(m.getOrElse("provMomGrowth", "0.0").toDouble)
             prodSalesValue.sales_amount = getFormatSales(m.getOrElse("companySales", "0.0").toDouble)
             prodSalesValue.sales_growth = getFormatShare(m.getOrElse("companySalesMomGrowth", "0.0").toDouble)
-            prodSalesValue.ev_value = getFormatShare(m.getOrElse("EV", "0.0").toDouble)
+            val a = getFormatShare(m.getOrElse("EV", "0.0").toDouble)
+            prodSalesValue.ev_value = if (m.getOrElse("EV", "0.0") == "NaN") 0.0 else a
             prodSalesValue.share = getFormatShare(m.getOrElse("companyShare", "0.0").toDouble)
             prodSalesValue.share_growth = getFormatShare(m.getOrElse("companyShareMomGrowth", "0.0").toDouble)
             prodSalesValue

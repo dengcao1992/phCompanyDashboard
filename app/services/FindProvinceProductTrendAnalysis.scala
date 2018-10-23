@@ -31,6 +31,26 @@ case class FindProvinceProductTrendAnalysis()(implicit val rq: Request[model.Roo
     }
 
     private def findProdTrendLineList(dashboard: phMaxProvinceDashboard): List[ProdTrendLine] = {
-
+        val currProvinceSeveralMonthProdMap = dashboard.getCurrProvinceSeveralMonthProdMap
+        var prodTrendLineList: List[ProdTrendLine] = Nil
+        val unit = tag match {
+            case t if t.toLowerCase().contains("share") => "%"
+            case t if t.toLowerCase().contains("grow") => "%"
+            case t if t.toLowerCase().contains("sale") => "mil"
+            case _ => "undefined"
+        }
+        currProvinceSeveralMonthProdMap.groupBy(x => x("PRODUCT_NAME")).foreach(one => {
+            val prodTrendLine = new ProdTrendLine()
+            prodTrendLine.name = one._1
+            prodTrendLine.Value = Some(dashboard.getDashboardMonthLst.map(temp_ym => {
+                val value = new ProdValue
+                value.ym = temp_ym
+                value.unit = unit
+                value.value = formatValue(one._2.find(m => m.getOrElse("ym", "无") == temp_ym).getOrElse(Map.empty).getOrElse(tag, "0.0"))(tag)
+                value
+            }))
+            prodTrendLineList = prodTrendLineList :+ prodTrendLine
+        })
+        prodTrendLineList
     }
 }

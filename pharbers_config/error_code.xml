@@ -55,5 +55,6 @@
         <error reason="no message impl" code="-9008" description="没有Message实例" />
 
         <error reason="unknown error" code="-9999" description="unknown error" />
+        <error reason="Bad Request for input" code="-103" description="输入的参数有错误" />
     </error_code>
 </pharbers-modules>

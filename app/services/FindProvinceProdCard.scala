@@ -44,7 +44,7 @@ case class FindProvinceProdCard()(implicit val rq: Request[model.RootObject], db
         }
 
         List(
-            new ProProductCard("竞品数量", time, province, "", "count", competingProdCount, "", 0.0, 0.0),
+            new ProProductCard("竞品数量", time, province, "", "count", competingProdCount.toString, "", 0.0, 0.0),
             new ProProductCard("份额最大", time, "", province, "%", currProvMaxShareMap.getOrElse("PRODUCT_NAME", "无"),
                 currProvMaxShareMap.getOrElse("CORP_NAME", "无"), getFormatShare(currProvMaxShareMap.getOrElse("share", "0.0").toDouble),
                 getFormatShare(currProvMaxShareMap.getOrElse("shareGrowth", "0.0").toDouble)

@@ -15,7 +15,7 @@ lazy val root = (project in file(".")).
         disablePlugins(PlayFilters).
         settings(common: _*).
         settings(
-            name := "phCompanyDashboard",
+            name := "phDashboard",
             fork in run := true,
             javaOptions += "-Xmx2G"
         )
@@ -25,8 +25,8 @@ routesGenerator := InjectedRoutesGenerator
 
 // Docker
 import NativePackagerHelper.directory
-mappings in Universal ++= directory("pharbers_config_deploy")
-        .map(x => x._1 -> x._2.replace("pharbers_config_deploy", "pharbers_config"))
+mappings in Universal ++= directory("pharbers_config")
+        .map(x => x._1 -> x._2.replace("pharbers_config", "pharbers_config"))
 
 // Scala Macro
 resolvers += Resolver.sonatypeRepo("releases")

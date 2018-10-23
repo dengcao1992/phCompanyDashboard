@@ -15,13 +15,13 @@ trait RequestHand {
     var province = ""
     def init(): Unit ={
         requestData.eqcond.getOrElse(Nil) match {
-            case Nil => ???
-            case eqconds => {
+            case Nil => throw new Exception("wrong input")
+            case cond => {
                 //                if (eqconds(0).`val` != null && eqconds(1).`val` != null) {
                 //                    tableSale = findTableSale(eqconds(0).`val`.toString, eqconds(1).`val`.toString)
                 //                }
                 //                toJsonapi(tableSale)
-                eqconds.foreach(x => {
+                cond.foreach(x => {
                     if (x.key == "company_id" && x.`val` != null) companyId = x.`val`.toString
                     if (x.key == "time" && x.`val` != null) time = x.`val`.toString
                     if (x.key == "market" && x.`val` != null) market = x.`val`.toString
@@ -29,7 +29,7 @@ trait RequestHand {
                     if (x.key == "province" && x.`val` != null) province = x.`val`.toString
                 })
             }
-            case _ => ???
+            case _ => throw new Exception("wrong input")
         }
         ym = time.replaceAll("-", "")
     }

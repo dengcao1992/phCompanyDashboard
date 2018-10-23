@@ -25,6 +25,7 @@ class Controller @Inject()(implicit val cc: ControllerComponents,
                 case ("dashboard", "keyWord") => FindCompanyKeyWord().selectKeyWord().asJson
                 case ("dashboard", "overView") => FindCompanySalesOverview().selectOverview().asJson
                 case ("dashboard", "contribution") => FindCompanyProdSalesContribution().selectContribution().asJson
+                case (_, _) => throw new Exception("Bad Request for input")
             }
         )
     }
@@ -53,6 +54,8 @@ class Controller @Inject()(implicit val cc: ControllerComponents,
                     case ("province", "productShare") => FindProvinceProductShare().selectProvinceProductShare().asJson
                     case ("province", "prodRankChange") => FindProvinceProductRankChange().selectProvinceProductRankChange().asJson
                     case ("province", "prodSaleOverview") => FindProvinceProductSaleOverview().selectProvinceProductSaleOverview().asJson
+                    case ("province", "prodTrendAnalysis") => FindProvinceProductTrendAnalysis().selectProvinceProductTrendAnalysis().asJson
+                    case (_, _) => throw new Exception("Bad Request for input")
                 }
             )
     }
