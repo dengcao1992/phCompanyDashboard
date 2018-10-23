@@ -19,6 +19,11 @@ case class FindProvinceTableOverview()(implicit val rq: Request[model.RootObject
         requestData = formJsonapi[request](rq.body)
         init()
         val dashboard = phMaxProvinceDashboard(companyId, ym, market)
+        provinceTableOverview.ProdSalesOverview = Some({
+            val prodSalesOverview = new ProdSalesOverview()
+            prodSalesOverview.title = "市场各省销售概况"
+            prodSalesOverview
+        })
         provinceTableOverview.ProdSalesValue = Some(findProdSalesValueList(dashboard))
         toJsonapi(provinceTableOverview)
     }

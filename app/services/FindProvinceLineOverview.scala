@@ -19,6 +19,11 @@ case class FindProvinceLineOverview()(implicit val rq: Request[model.RootObject]
         requestData = formJsonapi[request](rq.body)
         init()
         val dashboard = phMaxProvinceDashboard(companyId, ym, market)
+        provinceLineOverview.ProdSalesOverview = Some({
+            val prodSalesOverview = new ProdSalesOverview()
+            prodSalesOverview.title = "市场各省份销售概况"
+            prodSalesOverview
+        })
         provinceLineOverview.MixedGraphLine = Some(findMixedGraphDataList(dashboard))
         toJsonapi(provinceLineOverview)
     }

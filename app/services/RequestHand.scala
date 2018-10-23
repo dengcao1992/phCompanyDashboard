@@ -12,6 +12,7 @@ trait RequestHand {
     var market = ""
     var tag = ""
     var ym = ""
+    var province = ""
     def init(): Unit ={
         requestData.eqcond.getOrElse(Nil) match {
             case Nil => ???
@@ -25,6 +26,7 @@ trait RequestHand {
                     if (x.key == "time" && x.`val` != null) time = x.`val`.toString
                     if (x.key == "market" && x.`val` != null) market = x.`val`.toString
                     if (x.key == "tag" && x.`val` != null) tag = x.`val`.toString
+                    if (x.key == "province" && x.`val` != null) province = x.`val`.toString
                 })
             }
             case _ => ???
