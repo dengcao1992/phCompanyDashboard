@@ -18,7 +18,7 @@ case class FindProvinceMarketSale()(implicit val rq: Request[model.RootObject], 
         val provinceMarketSale = new ProvinceMarketSale()
         requestData = formJsonapi[request](rq.body)
         init()
-        val dashboard = phMaxProvinceDashboard(companyId, ym, market)
+        val dashboard = phMaxProvinceDashboard(companyId, ym, market, province)
         provinceMarketSale.SaleShareCard = Some(findSaleShareCardList(dashboard))
         toJsonapi(provinceMarketSale)
     }
