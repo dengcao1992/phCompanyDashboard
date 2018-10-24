@@ -41,15 +41,15 @@ case class FindProvinceProductShare()(implicit val rq: Request[model.RootObject]
         }
         provLstMapWithColor.map(m => {
             val pie = new ProdContValue()
-            pie.showValue = getFormatShare(m.getOrElse("share", "0.0").toDouble)
-            pie.showUnit = "%"
+            pie.show_value = getFormatShare(m.getOrElse("share", "0.0").toDouble)
+            pie.show_unit = "%"
             pie.title = m.getOrElse("PRODUCT_NAME", "无")
             pie.color = m.getOrElse("color", "#FFFFFF")
-            pie.Tips = Some(
+            pie.TipDetail = Some(
                 List(
-                    new Tips("生产商", m.getOrElse("CORP_NAME", "无"), "str"),
-                    new Tips("销售额", getFormatSales(m.getOrElse("sales", "0.0").toDouble).toString, "mil"),
-                    new Tips("份额", getFormatShare(m.getOrElse("share", "0.0").toDouble).toString, "%")
+                    new TipDetail("生产商", m.getOrElse("CORP_NAME", "无"), "str"),
+                    new TipDetail("销售额", getFormatSales(m.getOrElse("sales", "0.0").toDouble).toString, "mil"),
+                    new TipDetail("份额", getFormatShare(m.getOrElse("share", "0.0").toDouble).toString, "%")
                 )
             )
             pie

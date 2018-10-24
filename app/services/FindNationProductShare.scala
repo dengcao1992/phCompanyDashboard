@@ -45,15 +45,15 @@ case class FindNationProductShare()(implicit val rq: Request[model.RootObject], 
         var pieList: List[ProdContValue] = Nil
         prodLstMapWithColor.foreach(m => {
             val pie = new ProdContValue()
-            pie.showValue = getFormatShare(m.getOrElse("prodShare", "0.0").toDouble)
-            pie.showUnit = "%"
+            pie.show_value = getFormatShare(m.getOrElse("prodShare", "0.0").toDouble)
+            pie.show_unit = "%"
             pie.title = m.getOrElse("product", "无")
             pie.color = m.getOrElse("color", "#FFFFFF")
-            pie.Tips = Some(
+            pie.TipDetail = Some(
                 List(
-                    new Tips("生产商", m.getOrElse("corp", "无"), "str"),
-                    new Tips("销售额", getFormatSales(m.getOrElse("sales", "0.0").toDouble).toString, "mil"),
-                    new Tips("份额", getFormatShare(m.getOrElse("prodShare", "0.0").toDouble).toString, "%")
+                    new TipDetail("生产商", m.getOrElse("corp", "无"), "str"),
+                    new TipDetail("销售额", getFormatSales(m.getOrElse("sales", "0.0").toDouble).toString, "mil"),
+                    new TipDetail("份额", getFormatShare(m.getOrElse("prodShare", "0.0").toDouble).toString, "%")
                 )
             )
             pieList = pieList :+ pie

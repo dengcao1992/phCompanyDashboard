@@ -65,12 +65,12 @@ case class FindCompanyProdSalesContribution()(implicit val rq: Request[model.Roo
         var prodContValueList: List[ProdContValue] = Nil
         companyProdLstMapWithColor.foreach(m => {
             val prodContValue = new ProdContValue()
-            prodContValue.showValue = getFormatShare(m.getOrElse("contribution", "0.0").toDouble)
-            prodContValue.showUnit = "%"
+            prodContValue.show_value = getFormatShare(m.getOrElse("contribution", "0.0").toDouble)
+            prodContValue.show_unit = "%"
             prodContValue.title = m.getOrElse("product", "无")
             prodContValue.color = m.getOrElse("color", "#FFFFFF")
-            prodContValue.Tips = Some(List(new Tips("销售额",getFormatSales(m.getOrElse("sales", "0.0").toDouble).toString, "mil"),
-                new Tips("贡献度", getFormatShare(m.getOrElse("contribution", "0.0").toDouble).toString, "%")))
+            prodContValue.TipDetail = Some(List(new TipDetail("销售额",getFormatSales(m.getOrElse("sales", "0.0").toDouble).toString, "mil"),
+                new TipDetail("贡献度", getFormatShare(m.getOrElse("contribution", "0.0").toDouble).toString, "%")))
             prodContValueList = prodContValueList :+ prodContValue
         })
         prodContValueList

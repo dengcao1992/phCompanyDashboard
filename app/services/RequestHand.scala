@@ -14,6 +14,7 @@ trait RequestHand {
     var ym = ""
     var province = ""
     def init(): Unit ={
+//        println(rq.uri)
         requestData.eqcond.getOrElse(Nil) match {
             case Nil => throw new Exception("wrong input")
             case cond => {
