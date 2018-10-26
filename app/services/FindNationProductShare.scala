@@ -58,6 +58,19 @@ case class FindNationProductShare()(implicit val rq: Request[model.RootObject], 
             )
             pieList = pieList :+ pie
         })
+        if(prodLstMapWithColor.isEmpty) pieList = testprodContValue
         pieList
     }
+
+    private lazy val testprodContValue = List({
+        val prodContValue = new ProdContValue()
+        prodContValue.show_value = 10
+        prodContValue.show_unit = "%"
+        prodContValue.title = "产品一"
+        prodContValue.color = "#3399FF"
+        prodContValue.TipDetail = Some(List(new TipDetail("销售额","848", "mil"),
+            new TipDetail("贡献度", "10", "%")
+        ))
+        prodContValue
+    })
 }

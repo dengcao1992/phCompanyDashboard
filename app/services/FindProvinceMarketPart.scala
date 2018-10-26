@@ -21,7 +21,7 @@ case class FindProvinceMarketPart()(implicit val rq: Request[model.RootObject], 
         val dashboard = phMaxProvinceDashboard(companyId, ym, market)
         provinceMarketPart.ProdSalesOverview = Some({
             val prodSalesOverview = new ProdSalesOverview()
-            prodSalesOverview.title = "各产品销售概况"
+            prodSalesOverview.title = "各省份销售概况"
             prodSalesOverview.subtitle = time
             prodSalesOverview
         })

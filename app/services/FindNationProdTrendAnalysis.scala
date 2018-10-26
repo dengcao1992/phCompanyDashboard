@@ -43,7 +43,7 @@ case class FindNationProdTrendAnalysis()(implicit val rq: Request[model.RootObje
         dashboard.getSeveralMonthProdMap.groupBy(x => x("PRODUCT_NAME")).foreach(one => {
             val prodTrendLine = new ProdTrendLine()
             prodTrendLine.name = one._1
-            prodTrendLine.Value = Some(dashboard.getDashboardMonthLst.map(temp_ym => {
+            prodTrendLine.ProdValue = Some(dashboard.getDashboardMonthLst.map(temp_ym => {
                 val value = new ProdValue()
                 value.unit = unit
                 value.ym = temp_ym
@@ -52,6 +52,20 @@ case class FindNationProdTrendAnalysis()(implicit val rq: Request[model.RootObje
             }))
             prodTrendLineList = prodTrendLineList :+ prodTrendLine
         })
+        if (prodTrendLineList.isEmpty) prodTrendLineList = testProdTrendLine
         prodTrendLineList
     }
+
+    private lazy val testProdTrendLine = List({
+        val prodTrendLine = new ProdTrendLine()
+        prodTrendLine.name = "product1"
+        prodTrendLine.ProdValue = Some(List({
+            val value = new ProdValue()
+            value.unit = "mil"
+            value.ym = "2018-01"
+            value.value = 100
+            value
+        }))
+        prodTrendLine
+    })
 }

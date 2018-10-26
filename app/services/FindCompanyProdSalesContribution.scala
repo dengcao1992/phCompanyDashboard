@@ -58,6 +58,7 @@ case class FindCompanyProdSalesContribution()(implicit val rq: Request[model.Roo
             pie.color = m.getOrElse("color", "#FFFFFF")
             pieList = pieList :+ pie
         })
+        if (companyProdLstMapWithColor.isEmpty) pieList = testPie
         pieList
     }
 
@@ -73,6 +74,32 @@ case class FindCompanyProdSalesContribution()(implicit val rq: Request[model.Roo
                 new TipDetail("贡献度", getFormatShare(m.getOrElse("contribution", "0.0").toDouble).toString, "%")))
             prodContValueList = prodContValueList :+ prodContValue
         })
+        if (companyProdLstMapWithColor.isEmpty) prodContValueList = testprodContValue
         prodContValueList
     }
+
+    private lazy val testPie = List({
+        val pie = new Pie()
+        pie.prod = "产品一"
+        pie.market = "麻醉市场"
+        pie.sales = 13422
+        pie.cont = 422
+        pie.contMonth = 0
+        pie.contSeason = 0
+        pie.contYear = 0
+        pie.color = "#3399FF"
+        pie
+    })
+
+    private lazy val testprodContValue = List({
+        val prodContValue = new ProdContValue()
+        prodContValue.show_value = 10
+        prodContValue.show_unit = "%"
+        prodContValue.title = "产品一"
+        prodContValue.color = "#3399FF"
+        prodContValue.TipDetail = Some(List(new TipDetail("销售额","848", "mil"),
+            new TipDetail("贡献度", "10", "%")
+        ))
+        prodContValue
+    })
 }

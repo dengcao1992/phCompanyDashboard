@@ -26,13 +26,13 @@ case class FindNationSaleShare()(implicit val rq: Request[model.RootObject], dbt
 
     private def findSaleShareCardList(dashboard: phMaxNativeDashboard): List[SaleShareCard] ={
         List(
-            new SaleShareCard("市场总销售额", time, "全国", getFormatSales(dashboard.getCurrMonthNationSales),
+            new SaleShareCard("市场总销售额", time, "全国", "全国", getFormatSales(dashboard.getCurrMonthNationSales),
                 "mil", getFormatShare(dashboard.getNationSalesYearOnYear), getFormatShare(dashboard.getNationSalesMonthOnMonth)
             ),
-            new SaleShareCard("产品销售额", time, "全国", getFormatSales(dashboard.getCurrMonthCompanySales), "mil",
+            new SaleShareCard("产品销售额", time, "全国", "全国", getFormatSales(dashboard.getCurrMonthCompanySales), "mil",
                 getFormatShare(dashboard.getCompanySalesYearOnYear), getFormatShare(dashboard.getCompanySalesMonthOnMonth)
             ),
-            new SaleShareCard("产品份额", time, "全国", getFormatShare(dashboard.getCurrMonthCompanyShare), "%",
+            new SaleShareCard("产品份额", time, "全国", "全国", getFormatShare(dashboard.getCurrMonthCompanyShare), "%",
                 getFormatShare(dashboard.getCompanyShareYearOnYear), getFormatShare(dashboard.getCompanyShareMonthOnMonth)
             )
         )

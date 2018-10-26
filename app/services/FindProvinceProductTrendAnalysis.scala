@@ -23,6 +23,8 @@ case class FindProvinceProductTrendAnalysis()(implicit val rq: Request[model.Roo
             val prodSalesOverview = new ProdSalesOverview()
             prodSalesOverview.title = s"${market}各产品销售份额"
             prodSalesOverview.subtitle = time
+            prodSalesOverview.timeStart = getFormatYM(dashboard.dashboardStartYM)
+            prodSalesOverview.timeOver = getFormatYM(dashboard.dashboardEndYM)
             prodSalesOverview.area = province
             prodSalesOverview
         })
@@ -31,7 +33,8 @@ case class FindProvinceProductTrendAnalysis()(implicit val rq: Request[model.Roo
     }
 
     private def findProdTrendLineList(dashboard: phMaxProvinceDashboard): List[ProdTrendLine] = {
-        val currProvinceSeveralMonthProdMap = dashboard.getCurrProvinceSeveralMonthProdMap
+        var currProvinceSeveralMonthProdMap = dashboard.getCurrProvinceSeveralMonthProdMap
+        if (currProvinceSeveralMonthProdMap.length > 100) currProvinceSeveralMonthProdMap = currProvinceSeveralMonthProdMap.take(100)
         var prodTrendLineList: List[ProdTrendLine] = Nil
         val unit = tag match {
             case t if t.toLowerCase().contains("share") => "%"
@@ -42,7 +45,8 @@ case class FindProvinceProductTrendAnalysis()(implicit val rq: Request[model.Roo
         currProvinceSeveralMonthProdMap.groupBy(x => x("PRODUCT_NAME")).foreach(one => {
             val prodTrendLine = new ProdTrendLine()
             prodTrendLine.name = one._1
-            prodTrendLine.Value = Some(dashboard.getDashboardMonthLst.map(temp_ym => {
+            val DashboardMonthLst = dashboard.getDashboardMonthLst
+            prodTrendLine.ProdValue = Some(DashboardMonthLst.map(temp_ym => {
                 val value = new ProdValue
                 value.ym = temp_ym
                 value.unit = unit

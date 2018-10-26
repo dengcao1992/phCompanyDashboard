@@ -26,15 +26,15 @@ case class FindProvinceMarketSale()(implicit val rq: Request[model.RootObject], 
     private def findSaleShareCardList(dashboard: phMaxProvinceDashboard): List[SaleShareCard] = {
         val currProvSalesMap: Map[String, String] = dashboard.getCurrProvinceSalesMap
         List(
-            new SaleShareCard("市场总销售额", time, province, getFormatSales(currProvSalesMap.getOrElse("provinceSales", "0.0").toDouble),
+            new SaleShareCard("市场总销售额", time, province,  province,getFormatSales(currProvSalesMap.getOrElse("provinceSales", "0.0").toDouble),
                 "mil", getFormatShare(currProvSalesMap.getOrElse("provYoyGrowth", "0.0").toDouble),
                 getFormatShare(currProvSalesMap.getOrElse("provMomGrowth", "0.0").toDouble)
             ),
-            new SaleShareCard("产品销售额", time, province, getFormatSales(currProvSalesMap.getOrElse("companySales", "0.0").toDouble),
+            new SaleShareCard("产品销售额", time, province,  province,getFormatSales(currProvSalesMap.getOrElse("companySales", "0.0").toDouble),
                 "mil", getFormatShare(currProvSalesMap.getOrElse("companySalesYoyGrowth", "0.0").toDouble),
                 getFormatShare(currProvSalesMap.getOrElse("companySalesMomGrowth", "0.0").toDouble)
             ),
-            new SaleShareCard("产品份额", time, province, getFormatShare(currProvSalesMap.getOrElse("companyShare", "0.0").toDouble),
+            new SaleShareCard("产品份额", time, province,  province,getFormatShare(currProvSalesMap.getOrElse("companyShare", "0.0").toDouble),
                 "%", getFormatShare(currProvSalesMap.getOrElse("companyShareYoyGrowth", "0.0").toDouble),
                 getFormatShare(currProvSalesMap.getOrElse("companyShareMomGrowth", "0.0").toDouble)
             )

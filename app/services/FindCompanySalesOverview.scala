@@ -52,6 +52,31 @@ case class FindCompanySalesOverview()(implicit val rq: Request[model.RootObject]
             prodSalesValue.share_growth = getFormatShare(m.getOrElse("companyProdShareGrowth", "0.0").toDouble)
             prodSalesValueList = prodSalesValueList :+ prodSalesValue
         })
+        if (companyProdLstMap.isEmpty) prodSalesValueList = testProdSalesValue
         prodSalesValueList
     }
+
+    private lazy val testProdSalesValue = List({
+        val prodSalesValue = new ProdSalesValue()
+        prodSalesValue.prod = "产品二"
+        prodSalesValue.market = "麻醉市场"
+        prodSalesValue.market_scale = 4564
+        prodSalesValue.market_growth = 135
+        prodSalesValue.sales = 87345
+        prodSalesValue.sales_growth = 68
+        prodSalesValue.ev_value = 468
+        prodSalesValue.share = 78
+        prodSalesValue.share_growth = 41
+        prodSalesValue
+    },{val prodSalesValue = new ProdSalesValue()
+        prodSalesValue.prod = "产品三"
+        prodSalesValue.market = "麻醉市场"
+        prodSalesValue.market_scale = 4564
+        prodSalesValue.market_growth = 647
+        prodSalesValue.sales = 56
+        prodSalesValue.sales_growth = 786
+        prodSalesValue.ev_value = 563
+        prodSalesValue.share = 536
+        prodSalesValue.share_growth = 786
+        prodSalesValue})
 }
