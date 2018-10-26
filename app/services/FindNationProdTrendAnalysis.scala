@@ -52,20 +52,7 @@ case class FindNationProdTrendAnalysis()(implicit val rq: Request[model.RootObje
             }))
             prodTrendLineList = prodTrendLineList :+ prodTrendLine
         })
-        if (prodTrendLineList.isEmpty) prodTrendLineList = testProdTrendLine
         prodTrendLineList
     }
 
-    private lazy val testProdTrendLine = List({
-        val prodTrendLine = new ProdTrendLine()
-        prodTrendLine.name = "product1"
-        prodTrendLine.ProdValue = Some(List({
-            val value = new ProdValue()
-            value.unit = "mil"
-            value.ym = "2018-01"
-            value.value = 100
-            value
-        }))
-        prodTrendLine
-    })
 }

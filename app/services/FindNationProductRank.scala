@@ -52,17 +52,6 @@ case class FindNationProductRank()(implicit val rq: Request[model.RootObject], d
                 rankingList = rankingList :+ ranking
             })
         }
-        if (rankingList.isEmpty) rankingList = testRank
         rankingList
     }
-
-    private lazy val testRank = List({
-        val ranking = new Ranking()
-        ranking.no = 1
-        ranking.prod = "prod2"
-        ranking.manu = "生产商2"
-        ranking.growth = 4
-        ranking.value = 38
-        ranking
-    })
 }

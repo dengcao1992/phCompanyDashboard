@@ -43,19 +43,6 @@ case class FindNationProductTable()(implicit val rq: Request[model.RootObject], 
             prodSalesValue.share_growth = getFormatShare(m.getOrElse("prodShareGrowth", "0.0").toDouble)
             prodSalesValueList = prodSalesValueList :+ prodSalesValue
         })
-        if (prodSalesValueList.isEmpty) prodSalesValueList = testProdSalesValue
         prodSalesValueList
     }
-
-    private lazy val testProdSalesValue = List({
-        val prodSalesValue = new ProdSalesValue()
-        prodSalesValue.prod = "产品一"
-        prodSalesValue.manufacturer = "aaaaa"
-        prodSalesValue.market_scale = 123456
-        prodSalesValue.sales_growth = 16
-        prodSalesValue.ev_value = 100
-        prodSalesValue.share = 45
-        prodSalesValue.share_growth = 9
-        prodSalesValue
-    })
 }

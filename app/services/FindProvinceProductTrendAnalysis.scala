@@ -34,7 +34,6 @@ case class FindProvinceProductTrendAnalysis()(implicit val rq: Request[model.Roo
 
     private def findProdTrendLineList(dashboard: phMaxProvinceDashboard): List[ProdTrendLine] = {
         var currProvinceSeveralMonthProdMap = dashboard.getCurrProvinceSeveralMonthProdMap
-        if (currProvinceSeveralMonthProdMap.length > 100) currProvinceSeveralMonthProdMap = currProvinceSeveralMonthProdMap.take(100)
         var prodTrendLineList: List[ProdTrendLine] = Nil
         val unit = tag match {
             case t if t.toLowerCase().contains("share") => "%"
